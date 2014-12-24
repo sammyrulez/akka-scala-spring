@@ -2,7 +2,7 @@ name := """akka-scala-spring"""
 
 version := "0.1"
 
-scalaVersion := "2.10.2"
+scalaVersion := "2.10.4"
 
 resolvers += "SpringSource Milestone Repository" at "http://repo.springsource.org/milestone"
 

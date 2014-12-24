@@ -13,6 +13,8 @@ class AppConfiguration extends FunctionalConfiguration {
    */
   implicit val ctx = beanFactory.asInstanceOf[ApplicationContext]
 
+  importXml("classpath:/myContext.xml")
+
   /**
    * Actor system singleton for this application.
    */
@@ -23,14 +25,25 @@ class AppConfiguration extends FunctionalConfiguration {
     system
   }
 
-  val countingService = bean("countingService") {
+  /*val countingService = bean("countingService") {
     new CountingService
-  }
+  }*/
 
   val countingActor = bean("countingActor",  scope = BeanDefinition.SCOPE_PROTOTYPE) {
     val ca = new CountingActor
-    ca.countingService = countingService()
+    ca.countingService = ctx.getBean(classOf[CountingService])
     ca
   }
+
+  val actorFactory = bean("countingActorFactory", scope = BeanDefinition.SCOPE_SINGLETON) {
+
+     new ActorFactory(actorSystem(),ctx)
+  }
+
+  /*val asyncService = bean(){
+    new AsyncService(actorFactory().initActor("countingActor"))
+  }*/
+
+
 
 }
